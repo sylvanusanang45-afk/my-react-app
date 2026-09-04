@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import NoteForm from "./NoteForm";
-import SearchBar from "./searchbar";
+import SearchBar from "./Searchbar";
 import FilterButtons from "./FilterButtons";
 import NoteItem from "./NoteItem";
 
