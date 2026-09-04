@@ -1,213 +1,371 @@
-/*import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useState } from "react";
+
+import NoteForm from "./NoteForm";
+import SearchBar from "./searchbar";
+import FilterButtons from "./FilterButtons";
+import NoteItem from "./NoteItem";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
-}
-
-export default App*/
-
-
-
-
-import {useState,useEffect} from "react"
-
-function App(){
-
-const [task,setTask]= useState("")
-const [notes,setNotes]= useState(() => {
-return JSON.parse(localStorage.getItem("notes"))||[]
+const [notes, setNotes] = useState(() => {
+return JSON.parse(localStorage.getItem("notes")) || [];
 });
 
-useEffect(() =>{
-  localStorage.setItem("notes",JSON.stringify(notes))
-},[notes]);
+const [task, setTask] = useState("");
+const [search, setSearch] = useState("");
+const [filter, setFilter] = useState("all");
 
-function addNotes(){
+const [editingId, setEditingId] = useState(null);
+const [editText, setEditText] = useState("");
+
+
+useEffect(() => {
+
+localStorage.setItem("notes", JSON.stringify(notes));
+}, [notes]);
+
+
+function addNote() {
 if (!task.trim()) return;
 
-const newNotes=
-{id:Date.now(),
+const colors = ["yellow", "blue", "pink", "orange"]
+const newNote = {
+id: Date.now(),
+text: task,
+completed: false,
+color: colors[notes.length % colors.length]
+};
+
+setNotes([...notes, newNote]);
+setTask("");
+
+}
+
+
+function deleteNote(id) {
+setNotes(notes.filter((note) => note.id !== id));
+}
+
+
+function toggleNote(id) {
+setNotes(notes.map((note) =>note.id === id
+
+? { ...note, completed: !note.completed }
+: note
+
+));
+
+}
+
+
+function startEdit(note) {
+setEditingId(note.id);
+setEditText(note.text);
+}
+
+
+function saveEdit(id) {
+if (!editText.trim()) return;
+
+setNotes(notes.map((note) =>note.id === id
+
+? { ...note, text: editText }
+: note
+
+));
+
+setEditingId(null);
+
+setEditText("");
+
+}
+
+
+const filteredNotes = notes.filter((note) => {
+
+const matchesSearch = note.text
+.toLowerCase()
+.includes(search.toLowerCase());
+
+
+if (filter === "active") {
+return matchesSearch && !note.completed;
+}
+
+
+if (filter === "completed") {
+return matchesSearch && note.completed;
+}
+
+return matchesSearch;
+
+});
+
+
+const totalNotes = notes.length;
+
+const completedNotes = notes.filter(
+(note) => note.completed
+).length;
+
+
+const activeNotes = notes.filter(
+(note) => !note.completed
+).length;
+
+
+return (
+
+<div className="app">
+
+
+
+
+<aside className="sidebar">
+
+<div className="sidebar-top">
+<div className="menu-header">
+
+<h2>Menu</h2>
+
+<span className="menu-icon">☰</span>
+
+</div>
+
+
+<div className="search-box">
+
+<SearchBar
+search={search}
+setSearch={setSearch}
+/>
+
+</div>
+
+
+<div className="sidebar-group">
+<p className="sidebar-label">TASKS</p>
+
+<FilterButtons
+filter={filter}
+setFilter={setFilter}
+totalNotes={totalNotes}
+activeNotes={activeNotes}
+completedNotes={completedNotes}
+/>
+
+</div>
+
+
+<div className="sidebar-group">
+<p className="sidebar-label">LISTS</p>
+
+
+<div className="list-item">
+
+<span className="list-color personal"></span>
+
+<span>Personal</span>
+<b>{totalNotes}</b>
+</div>
+
+
+<div className="list-item">
+
+<span className="list-color work"></span>
+
+<span>Work</span>
+<b>{activeNotes}</b>
+</div>
+
+
+<div className="list-item">
+<span className="list-color list-one"></span>
+
+<span>List 1</span>
+<b>{completedNotes}</b>
+</div>
+
+
+<div className="add-list">
+
+<span>＋</span>
+Add New List
+</div>
+
+</div>
+
+
+<div className="sidebar-group">
+<p className="sidebar-label">TAGS</p>
+
+
+<div className="tags">
+
+<span className="tag tag-one">
+Tag 1
+</span>
+
+<span className="tag tag-two">
+Tag 2
+</span>
+
+<button>
++ Add Tag
+</button>
+
+</div>
+</div>
+</div>
+
+
+
+<div className="sidebar-bottom">
+<div>
+<span>☷</span>
+Settings
+
+</div>
+
+
+<div>
+
+<span>↪</span>
+
+Sign out
+
+</div>
+</div>
+</aside>
+
+
+
+
+
+<main className="main-content">
+
+<h1 className="page-title">
+Sticky Wall
+</h1>
+
+
+<div className="wall">
+
+{filteredNotes.map((note) => (
+
+<NoteItem
+key={note.id}
+note={note}
+toggleNote={toggleNote}
+deleteNote={deleteNote}
+startEdit={startEdit}
+editingId={editingId}
+editText={editText}
+setEditText={setEditText}
+saveEdit={saveEdit}
+
+/>
+
+))}
+
+
+<NoteForm
+task={task}
+setTask={setTask}
+addNote={addNote}
+
+/>
+
+
+</div>
+</main>
+</div>
+
+);
+
+}
+
+
+export default App;
+
+
+
+
+/*import { useState,useEffect } from "react";
+
+import SearchBar from "./searchbar";
+
+
+function App(){
+const [habits,setHabits]=useState(()=>{
+  return JSON.parse(localStorage.getItem("habits"))||[]
+})
+
+const [task,setTask]=useState("")
+const [search,setSearch]=useState("")
+
+useEffect(()=>{
+localStorage.setItem("habits",JSON.stringify(habits))},[habits])
+  
+function addHabit(){
+if (!task.trim()) return
+
+const newHabit={
+id:Date.now(),
 text:task,
 completed:false
 }
 
-setNotes([...notes,newNotes]);
+setHabits([...habits,newHabit]),
 setTask("")
 }
 
-function delNotes(id){
-setNotes(notes.filter((note) => note.id !==id))
+function delHabit(id){
+setHabits(habits.filter((habit)=>habit.id !== id))
 }
 
-function toggNotes(id){
-setNotes(notes.map((note) => note.id ===id
-?{...note,completed: !note.completed}
-:note
+function toggHabit(id){
+setHabits(habits.map((habit)=>habit.id === id
+
+?{...habit,completed:!habit.completed}
+:habit
 ))
 }
 
-return (
+
+const filteredNotes = notes.filter((note) => {
+
+const matchesSearch = note.text
+.toLowerCase()
+.includes(search.toLowerCase());
+
+
+return matchesSearch;
+});
+
+
+const totalHabit=habits.length
+
+const completedHabit=(habits.filter((habit)=>habit.completed === true)).length
+
+return(
 <div>
-<input
-type="text"
-value={task}
-placeholder="Enter Note"
-onChange={(e) => setTask(e.target.value)}
+
+
+
+<searchBar
+search={search}
+setSearch={setSearch}
 />
 
-<button onClick={addNotes}>Add</button>
 
-{notes.map((note) => (
-<div key={note.id}>
-<span
-onClick={() => toggNotes(note.id)}
-style={{
-textDecoration: note.completed
-? "line-through"
-: "none",
-cursor: "pointer",
-}}
->
-{note.text}
-</span>
 
-<button
-onClick={() => delNotes(note.id)}
->
-Delete
-</button>
-</div>
-))}
+
+
+
 
 </div>
+
 )
 
-}
-export default App
-
-
-
-
-
-
-
-
-
-
-
-
+}*/
