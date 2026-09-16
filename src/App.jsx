@@ -975,11 +975,11 @@ import Swal from "sweetalert2";
 
 import NoteForm from "./NoteForm"
 import NoteItem from "./NoteItem"
-import SearchBar from "./searchbar"
+import SearchBar from "./SearchBar"
 import FilterButtons from "./FilterButtons";
 
 function App(){
-
+  
 const [notes,setNotes]=useState(()=>{
 
 return JSON.parse(localStorage.getItem("notes"))||[]
