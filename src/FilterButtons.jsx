@@ -100,8 +100,8 @@ Sticky Wall
 }
 
 
-export default FilterButtons;*/
-
+export default FilterButtons;
+*/
 
 
 /*function FilterButtons({filter,setFilter}){
@@ -127,7 +127,7 @@ export default FilterButtons;*/
 
 
 
-function FilterButtons({
+/*function FilterButtons({
 
 filter,
 setFilter,
@@ -259,3 +259,139 @@ Sticky Wall
 }
 
 export default FilterButtons;
+*/
+
+
+function FilterButtons({
+
+filter,
+setFilter,
+totalNotes,
+todayNotes,
+weekNotes,
+monthNotes
+
+}){
+
+return(
+
+<div className="filter-buttons">
+
+<button
+
+className={filter==="all"?"selected":""}
+
+onClick={()=>setFilter("all")}
+
+>
+
+<span>
+
+▸
+
+All
+
+</span>
+
+<b>{totalNotes}</b>
+
+</button>
+
+<button
+
+className={filter==="today"?"selected":""}
+
+onClick={()=>setFilter(filter==="today"?"all":"today")}
+
+>
+
+<span>
+
+☷
+
+Today
+
+</span>
+
+<b>{todayNotes}</b>
+
+</button>
+
+<button
+
+className={filter==="week"?"selected":""}
+
+onClick={()=>setFilter(filter==="week"?"all":"week")}
+
+>
+
+<span>
+
+◷
+
+This Week
+
+</span>
+
+<b>{weekNotes}</b>
+
+</button>
+
+<button
+
+className={filter==="month"?"selected":""}
+
+onClick={()=>setFilter(filter==="month"?"all":"month")}
+
+>
+
+<span>
+
+◫
+
+This Month
+
+</span>
+
+<b>{monthNotes}</b>
+
+</button>
+
+<button
+
+className={filter==="calendar"?"selected":""}
+
+onClick={()=>setFilter(filter==="calendar"?"all":"calendar")}
+
+>
+
+<span>
+
+▣
+
+Calendar
+
+</span>
+
+</button>
+
+<button className="sticky-wall-button">
+
+<span>
+
+▦
+
+Sticky Wall
+
+</span>
+
+</button>
+
+</div>
+
+)
+
+}
+
+export default FilterButtons;
+

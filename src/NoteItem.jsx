@@ -87,14 +87,14 @@ onClick={() => deleteNote(note.id)}
 </div>
 
 );
-
+ 
 
 }
 
 
 export default NoteItem;
 
-*/
+
 
 
 /*function NoteItem({ habit, delHabit, toggHabit }) {
@@ -126,7 +126,7 @@ export default NoteItem;
 
 export default NoteItem;*/
 
-function NoteItem({
+/*function NoteItem({
 
 note,
 toggleNote,
@@ -327,7 +327,6 @@ onClick={()=>startEdit(note)}
 ✎
 </button>
 
-
 <button
 onClick={()=>deleteNote(note.id)}
 >
@@ -351,3 +350,267 @@ onClick={()=>deleteNote(note.id)}
 
 
 export default NoteItem;
+*/
+
+
+function NoteItem({
+
+note,
+toggleNote,
+deleteNote,
+startEdit,
+editingId,
+editText,
+setEditText,
+saveEdit,
+updateNote,
+lists,
+tags
+
+}){
+
+function toggleTag(tag){
+
+if((note.tags||[]).includes(tag)){
+
+updateNote(note.id,{
+
+tags:(note.tags||[]).filter((selectedTag)=>
+selectedTag!==tag
+)
+
+})
+
+}else{
+
+updateNote(note.id,{
+
+tags:[
+...(note.tags||[]),
+tag
+]
+
+})
+
+}
+
+}
+
+return(
+
+<div className={`sticky-note ${note.color||"yellow"} ${note.completed?"completed":""}`}>
+
+{editingId===note.id?(
+
+<div className="edit-note">
+
+{note.title&&(
+
+<h3 className="edit-title">
+{note.title}
+</h3>
+
+)}
+
+<div className="edit-dates">
+
+{note.startDate&&(
+<small>Start: {note.startDate}</small>
+)}
+
+{note.endDate&&(
+<small>Deadline: {note.endDate}</small>
+)}
+
+</div>
+
+<textarea
+value={editText}
+onChange={(e)=>setEditText(e.target.value)}
+/>
+
+<select
+
+className="edit-list-select"
+
+value={note.list}
+
+onChange={(e)=>
+updateNote(note.id,{
+list:e.target.value
+})
+}
+
+>
+
+{lists.map((list)=>(
+
+<option
+key={list}
+value={list}
+>
+
+{list}
+
+</option>
+
+))}
+
+</select>
+
+<div className="edit-tags">
+
+<p>Tags</p>
+
+{tags.map((tag)=>(
+
+<button
+
+type="button"
+
+key={tag}
+
+className={(note.tags||[]).includes(tag)?"tag-selected":""}
+
+onClick={()=>toggleTag(tag)}
+
+>
+
+{tag}
+
+</button>
+
+))}
+
+</div>
+
+<button
+
+className="save-note"
+
+onClick={()=>saveEdit(note.id)}
+
+>
+
+Save
+
+</button>
+
+</div>
+
+):( 
+
+<>
+
+{note.title&&(
+
+<h3 className="sticky-title">
+
+{note.title}
+
+</h3>
+
+)}
+
+<p
+className="sticky-text"
+onClick={()=>toggleNote(note.id)}
+>
+
+{note.text}
+
+</p>
+
+{(note.startDate||note.endDate)&&(
+
+<div className="note-dates">
+
+{note.startDate&&(
+<small>
+Start: {note.startDate}
+</small>
+)}
+
+{note.endDate&&(
+<small>
+Deadline: {note.endDate}
+</small>
+)}
+
+</div>
+
+)}
+
+{note.tags&&note.tags.length>0&&(
+
+<div className="note-tags">
+
+{note.tags.map((tag)=>(
+
+<span
+className="note-tag active-tag"
+key={tag}
+>
+
+{tag}
+
+</span>
+
+))}
+
+</div>
+
+)}
+
+<div className="note-footer">
+
+<button
+
+className="check-button"
+
+onClick={()=>toggleNote(note.id)}
+
+>
+
+{note.completed?"↶":"✓"}
+
+</button>
+
+<div className="note-buttons">
+
+<button
+
+onClick={()=>startEdit(note)}
+
+>
+
+✎
+
+</button>
+
+<button
+
+onClick={()=>deleteNote(note.id)}
+
+>
+
+🗑
+
+</button>
+
+</div>
+
+</div>
+
+</>
+
+)}
+
+</div>
+
+)
+
+}
+
+export default NoteItem;
+
