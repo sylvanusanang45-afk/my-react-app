@@ -1,4 +1,4 @@
-* {
+/** {
 margin: 0;
 padding: 0;
 box-sizing: border-box;
@@ -24,9 +24,7 @@ cursor: pointer;
 }
 
 
-/* =========================
-APP
-========================= */
+
 
 .app {
 min-height: 100vh;
@@ -35,9 +33,7 @@ background: #f8f8f9;
 }
 
 
-/* =========================
-SIDEBAR
-========================= */
+
 
 .sidebar {
 width: 370px;
@@ -51,7 +47,7 @@ justify-content: space-between;
 }
 
 
-/* MENU */
+
 
 .menu-header {
 display: flex;
@@ -73,7 +69,7 @@ color: #555;
 }
 
 
-/* SEARCH */
+
 
 .search-box {
 margin-bottom: 45px;
@@ -113,7 +109,7 @@ color: #777;
 }
 
 
-/* SIDEBAR GROUP */
+
 
 .sidebar-group {
 margin-bottom: 38px;
@@ -128,7 +124,7 @@ margin-bottom: 14px;
 }
 
 
-/* FILTER BUTTONS */
+
 
 .filter-buttons {
 display: flex;
@@ -182,7 +178,6 @@ margin-top: 4px;
 }
 
 
-/* LISTS */
 
 .list-item {
 height: 43px;
@@ -240,7 +235,7 @@ font-size: 25px;
 }
 
 
-/* TAGS */
+
 
 .tags {
 display: flex;
@@ -277,7 +272,7 @@ border-radius: 5px;
 }
 
 
-/* BOTTOM */
+
 
 .sidebar-bottom {
 display: flex;
@@ -301,9 +296,6 @@ font-size: 21px;
 }
 
 
-/* =========================
-MAIN CONTENT
-========================= */
 
 .main-content {
 flex: 1;
@@ -321,9 +313,6 @@ margin-bottom: 60px;
 }
 
 
-/* =========================
-STICKY WALL GRID
-========================= */
 
 .wall {
 display: grid;
@@ -333,9 +322,7 @@ max-width: 1100px;
 }
 
 
-/* =========================
-STICKY NOTES
-========================= */
+
 
 .sticky-note {
 height: 340px;
@@ -356,7 +343,6 @@ transform: translateY(-3px);
 }
 
 
-/* COLORS FROM SCREENSHOT */
 
 .yellow {
 background: #fff0ad;
@@ -378,8 +364,6 @@ background: #ffd6a3;
 }
 
 
-/* TEXT */
-
 .sticky-text {
 font-size: 19px;
 font-weight: 500;
@@ -395,7 +379,7 @@ opacity: 0.5;
 }
 
 
-/* ACTIONS */
+
 
 .note-footer {
 display: flex;
@@ -432,9 +416,7 @@ background: rgba(255, 255, 255, 0.8);
 }
 
 
-/* =========================
-ADD NOTE CARD
-========================= */
+
 
 .add-note-card {
 height: 340px;
@@ -460,8 +442,6 @@ line-height: 1;
 color: #242424;
 }
 
-
-/* OPEN ADD FORM */
 
 .add-note-card.open {
 padding: 25px;
@@ -512,9 +492,7 @@ background: #aaa;
 }
 
 
-/* =========================
-EDIT MODE
-========================= */
+
 
 .edit-note {
 height: 100%;
@@ -546,10 +524,6 @@ padding: 12px;
 border-radius: 5px;
 }
 
-
-/* =========================
-RESPONSIVE
-========================= */
 
 @media (max-width: 1200px) {
 
@@ -598,4 +572,12 @@ margin-bottom: 35px;
 grid-template-columns: 1fr;
 }
 
+}
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: red;
 }

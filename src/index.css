@@ -1950,3 +1950,195 @@ grid-template-columns:1fr;
 
 }
 
+/* =========================
+   AUTH PAGE
+========================= */
+
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f6f8;
+  padding: 20px;
+}
+
+
+/* =========================
+   AUTH BOX
+========================= */
+
+.auth-box {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.auth-box h1 {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #222;
+}
+
+
+/* =========================
+   SUBTITLE
+========================= */
+
+.auth-box::before {
+  content: "Welcome to Sticky Wall";
+  display: block;
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.auth-box input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  margin-bottom: 15px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  background: #fafafa;
+  color: #222;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+
+.auth-box input:focus {
+  border-color: #555;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+
+.auth-box input::placeholder {
+  color: #999;
+}
+
+
+/* =========================
+   MAIN BUTTON
+========================= */
+
+.auth-box > button:not(.auth-switch) {
+  width: 100%;
+  padding: 14px;
+
+  margin-top: 5px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #222;
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.auth-box > button:not(.auth-switch):hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+
+.auth-box > button:not(.auth-switch):active {
+  transform: translateY(0);
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.auth-box p {
+  margin: 15px 0 0;
+
+  text-align: center;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  color: #666;
+}
+
+
+/* =========================
+   LOGIN / SIGNUP SWITCH
+========================= */
+
+.auth-switch {
+  margin-top: 20px;
+
+  border: none;
+  background: transparent;
+
+  color: #555;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.auth-switch:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 500px) {
+
+  .auth-page {
+    padding: 15px;
+  }
+
+  .auth-box {
+    padding: 30px 22px;
+    border-radius: 15px;
+  }
+
+  .auth-box h1 {
+    font-size: 26px;
+  }
+
+}
