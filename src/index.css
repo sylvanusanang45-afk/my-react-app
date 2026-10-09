@@ -1950,186 +1950,154 @@ grid-template-columns:1fr;
 
 }
 
-/* =========================
-   AUTH PAGE
-========================= */
 
+/* AUTH PAGE */
 .auth-page {
   min-height: 100vh;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f5f6f8;
   padding: 20px;
+  background: #f5f5f5;
 }
 
-
-/* =========================
-   AUTH BOX
-========================= */
-
+/* AUTH BOX */
 .auth-box {
   width: 100%;
   max-width: 420px;
-  background: white;
   padding: 40px;
+  background: #fff;
   border-radius: 18px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
+/* TOP LABEL */
+.auth-box::before {
+  content: "STICKY WALL";
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #888;
+  margin-bottom: 25px;
+}
 
-/* =========================
-   TITLE
-========================= */
-
+/* HEADING */
 .auth-box h1 {
-  margin: 0 0 8px;
   text-align: center;
   font-size: 30px;
   font-weight: 700;
   color: #222;
+  margin: 0 0 12px;
 }
 
-
-/* =========================
-   SUBTITLE
-========================= */
-
-.auth-box::before {
-  content: "Welcome to Sticky Wall";
-  display: block;
+/* SUBTITLE */
+.auth-subtitle {
   text-align: center;
   color: #777;
   font-size: 14px;
-  margin-bottom: 28px;
+  line-height: 1.6;
+  margin: 0 0 28px;
 }
 
+/* FORM */
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
-/* =========================
-   INPUTS
-========================= */
-
+/* INPUTS */
 .auth-box input {
   width: 100%;
   box-sizing: border-box;
-  padding: 14px 16px;
-  margin-bottom: 15px;
-
-  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e2e2;
   border-radius: 10px;
-
   background: #fafafa;
   color: #222;
-
-  font-size: 15px;
-
+  font-size: 14px;
   outline: none;
-
-  transition: 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-
 
 .auth-box input:focus {
-  border-color: #555;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+  background: #fff;
 }
-
 
 .auth-box input::placeholder {
   color: #999;
 }
 
-
-/* =========================
-   MAIN BUTTON
-========================= */
-
-.auth-box > button:not(.auth-switch) {
+/* MAIN LOGIN / SIGNUP BUTTON */
+.auth-box form button {
   width: 100%;
-  padding: 14px;
-
-  margin-top: 5px;
-
+  padding: 15px;
+  margin-top: 4px;
   border: none;
   border-radius: 10px;
-
   background: #222;
-  color: white;
-
+  color: #fff;
   font-size: 15px;
   font-weight: 600;
-
   cursor: pointer;
-
-  transition: 0.2s;
+  transition: background 0.2s, transform 0.2s;
 }
 
-
-.auth-box > button:not(.auth-switch):hover {
-  background: #000;
-  transform: translateY(-1px);
+.auth-box form button:hover {
+  background: #444;
 }
 
-
-.auth-box > button:not(.auth-switch):active {
-  transform: translateY(0);
+.auth-box form button:active {
+  transform: scale(0.98);
 }
 
-
-/* =========================
-   MESSAGE
-========================= */
-
-.auth-box p {
-  margin: 15px 0 0;
-
+/* FEEDBACK MESSAGE */
+.auth-message {
   text-align: center;
-
-  font-size: 14px;
+  color: #555;
+  font-size: 13px;
   line-height: 1.5;
-
-  color: #666;
+  margin: 18px 0 0;
+  overflow-wrap: anywhere;
 }
 
-
-/* =========================
-   LOGIN / SIGNUP SWITCH
-========================= */
+/* SIGNUP / LOGIN SWITCH */
+.auth-switch-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 25px;
+  color: #777;
+  font-size: 14px;
+}
 
 .auth-switch {
-  margin-top: 20px;
-
+  padding: 4px;
+  margin: 0;
   border: none;
   background: transparent;
-
-  color: #555;
-
+  color: #222;
   font-size: 14px;
-
+  font-weight: 700;
   cursor: pointer;
-
-  transition: 0.2s;
 }
 
-
 .auth-switch:hover {
-  color: #000;
   text-decoration: underline;
 }
 
-
-/* =========================
-   MOBILE
-========================= */
-
+/* MOBILE */
 @media (max-width: 500px) {
-
   .auth-page {
-    padding: 15px;
+    padding: 16px;
   }
 
   .auth-box {
@@ -2140,5 +2108,4 @@ grid-template-columns:1fr;
   .auth-box h1 {
     font-size: 26px;
   }
-
 }

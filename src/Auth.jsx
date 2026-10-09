@@ -4,7 +4,7 @@ import { supabase } from "./supabase";
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
   const [message, setMessage] = useState("");
 
   async function handleAuth() {
@@ -28,7 +28,9 @@ function Auth() {
       if (error) {
         setMessage(error.message);
       } else {
-        setMessage("Account created successfully. Now switch to Login.");
+        setMessage("Account created successfully. You can now log in.");
+        setLogin(true);
+        setPassword("");
       }
     }
   }
@@ -36,41 +38,60 @@ function Auth() {
   return (
     <div className="auth-page">
       <div className="auth-box">
+        <h1>{login ? "Welcome Back" : "Create Account"}</h1>
 
-        <h1>{login ? "Login" : "Create Account"}</h1>
+        <p className="auth-subtitle">
+          {login
+            ? "Log in to access your Sticky Wall tasks."
+            : "Create an account to get started."}
+        </p>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button onClick={handleAuth}>
-          {login ? "Login" : "Sign Up"}
-        </button>
-
-        {message && <p>{message}</p>}
-
-        <button
-          className="auth-switch"
-          onClick={() => {
-            setLogin(!login);
-            setMessage("");
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAuth();
           }}
         >
-          {login
-            ? "Don't have an account? Sign Up"
-            : "Already have an account? Login"}
-        </button>
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button type="submit">
+            {login ? "Login" : "Sign Up"}
+          </button>
+        </form>
+
+        {message && <p className="auth-message">{message}</p>}
+
+        <div className="auth-switch-container">
+          <span>
+            {login
+              ? "Don't have an account?"
+              : "Already have an account?"}
+          </span>
+
+          <button
+            className="auth-switch"
+            onClick={() => {
+              setLogin(!login);
+              setMessage("");
+            }}
+          >
+            {login ? "Sign Up" : "Login"}
+          </button>
+        </div>
       </div>
     </div>
   );
