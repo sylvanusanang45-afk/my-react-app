@@ -20,10 +20,15 @@ function Auth() {
         setMessage(error.message);
       }
     } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+      
+const { error } = await supabase.auth.signUp({
+  email,
+  password,
+  options: {
+    emailRedirectTo:
+      "https://my-react-app-32mp-6bn3com8n-sylver.vercel.app",
+  },
+});
 
       if (error) {
         setMessage(error.message);
