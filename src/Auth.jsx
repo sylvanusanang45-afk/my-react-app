@@ -3,7 +3,7 @@ import { useState } from "react";
 import { supabase } from "./supabase";
 
 const SITE_URL =
-  "https://my-react-app-32mp-6bn3com8n-sylver.vercel.app";
+  "https://my-react-app-vko1-ncp09p45a-sylver.vercel.app";
 
 function Auth() {
   const [mode, setMode] = useState("login");
