@@ -2094,6 +2094,15 @@ grid-template-columns:1fr;
   text-decoration: underline;
 }
 
+.auth-error {
+  color: #c62828;
+}
+
+.auth-box button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 /* MOBILE */
 @media (max-width: 500px) {
   .auth-page {
