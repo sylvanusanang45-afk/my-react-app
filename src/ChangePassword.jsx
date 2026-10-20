@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { supabase } from "./supabase";
 
 function ChangePassword() {
@@ -9,12 +10,70 @@ function ChangePassword() {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const [hasRecoverySession, setHasRecoverySession] =
+    useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function checkSession() {
+      const { data, error } =
+        await supabase.auth.getSession();
+
+      if (!mounted) return;
+
+      if (error) {
+        setErrorMessage(error.message);
+      }
+
+      if (data.session) {
+        setHasRecoverySession(true);
+      }
+
+      setCheckingSession(false);
+    }
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (!mounted) return;
+
+        if (
+          event === "PASSWORD_RECOVERY" &&
+          session
+        ) {
+          setHasRecoverySession(true);
+          setErrorMessage("");
+        }
+
+        if (event === "SIGNED_OUT") {
+          setHasRecoverySession(false);
+        }
+      }
+    );
+
+    checkSession();
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     setMessage("");
     setErrorMessage("");
+
+    if (!hasRecoverySession) {
+      setErrorMessage(
+        "Your reset session is missing or has expired. Open a fresh password-reset link from your email."
+      );
+      return;
+    }
 
     if (password.length < 6) {
       setErrorMessage(
@@ -31,22 +90,24 @@ function ChangePassword() {
     setLoading(true);
 
     try {
-      const { data: sessionData, error: sessionError } =
+      const { data, error } =
         await supabase.auth.getSession();
 
-      if (sessionError) throw sessionError;
+      if (error) throw error;
 
-      if (!sessionData.session) {
+      if (!data.session) {
+        setHasRecoverySession(false);
         throw new Error(
-          "Your reset session is missing or has expired. Request a new password-reset link."
+          "Your reset session has expired. Request a new password-reset link."
         );
       }
 
-      const { error } = await supabase.auth.updateUser({
-        password,
-      });
+      const { error: updateError } =
+        await supabase.auth.updateUser({
+          password,
+        });
 
-      if (error) throw error;
+      if (updateError) throw updateError;
 
       setMessage(
         "Your password has been changed successfully."
@@ -61,6 +122,16 @@ function ChangePassword() {
     }
   }
 
+  if (checkingSession) {
+    return (
+      <div className="auth-page">
+        <div className="auth-box">
+          <p>Verifying your reset session...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="auth-page">
       <div className="auth-box">
@@ -70,12 +141,21 @@ function ChangePassword() {
           Enter your new password below.
         </p>
 
+        {!hasRecoverySession && (
+          <p className="auth-message auth-error" role="alert">
+            Open this page using a valid password-reset
+            link from your email.
+          </p>
+        )}
+
         <form onSubmit={handleSubmit}>
           <input
             type="password"
             placeholder="New password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
             minLength={6}
             autoComplete="new-password"
             required
@@ -93,7 +173,10 @@ function ChangePassword() {
             required
           />
 
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            disabled={loading || !hasRecoverySession}
+          >
             {loading ? "Updating..." : "Change Password"}
           </button>
         </form>
